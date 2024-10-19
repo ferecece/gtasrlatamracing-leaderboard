@@ -1,0 +1,293 @@
+.container {
+  padding: 0 2rem;
+  max-width: 1280px;
+  margin-inline: auto;
+}
+
+.main {
+  min-height: 80vh;
+  padding: 4rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  padding: 0 4rem;
+  border-radius: 8px;
+  min-width: 700px;
+  margin-bottom: 16px;
+}
+
+.row-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  width: 100%;
+}
+
+.footer {
+  display: flex;
+  gap: 1.5rem;
+  padding: 2rem 0;
+  border-top: 1px solid #eaeaea;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.footer a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: color 0.3s ease;
+  color: #9A031E;
+}
+
+.footer a:hover {
+  color: #b10d24;
+}
+
+@media (prefers-color-scheme: dark) {
+  .footer {
+    background-color: black;
+    border-color: #222;
+  }
+
+  .footer a {
+    color: #ffffff;
+  }
+
+}
+
+.title {
+  margin: 0;
+  line-height: 1.15;
+  font-size: 1.6rem;
+}
+
+.description {
+  margin: 4rem 0;
+  line-height: 1.5;
+  font-size: 1.5rem;
+}
+
+.code {
+  background: #fafafa;
+  border-radius: 5px;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+    Bitstream Vera Sans Mono, Courier New, monospace;
+}
+
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 800px;
+}
+
+.table {
+  border-collapse: collapse;
+  text-align: left; 
+	vertical-align: middle;
+
+  width: 100%;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.table thead tr {
+  background: #9A031E;
+  color:white;
+}
+
+.table th, 
+.table td {
+  padding: 12px 6px;
+}
+
+.table tbody {
+  background: white;
+  color: black;
+}
+
+.table tr {
+  border-bottom: 1px solid rgb(218, 218, 218);
+}
+
+.table tbody tr:last-of-type {
+  border-bottom: 3px solid #9A031E;
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.caption {
+	font-weight: bold;
+	font-size: 24px;
+	text-align: left;
+	color: black;
+	margin-bottom: 16px;
+}
+
+.caption h4 {
+  margin: 0;
+}
+
+.captionAuthor {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.searchbar-maps {
+  width: 100%;
+  margin-bottom: 16px;
+  color: black;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.navbarContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.leftSection {
+  flex: 1;
+}
+
+.centerSection {
+  flex: 1;
+  text-align: center;
+}
+
+.rightSection {
+  flex: 1;
+  text-align: right;
+}
+.statusIndicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.container {
+  padding: 0 2rem;
+  max-width: 1280px;
+  margin-inline: auto;
+}
+
+.title {
+  margin: 0;
+  line-height: 1.15;
+  font-size: 1.6rem;
+}
+
+@media (max-width: 600px) {
+  .grid {
+    width: 100%;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .footer {
+    border-color: #222;
+  }
+  .nav {
+    border-color: #222;
+  }
+  .code {
+    background: #111;
+  }
+
+  .table tbody {
+    background: #141414;
+    color: white;
+  }
+  .caption {
+    color:white;
+  }
+  .table tr {
+    border-bottom: 1px solid rgba(218, 218, 218, 0.1);
+  }
+  .table {
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px 0px;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding: 0;
+  }
+  .table {
+    border-radius: 0;
+  }
+}
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;
+  gap: 12px;
+}
+
+.pagination button {
+  background-color: #9A031E;
+  color: white;
+  border: 1px solid #9A031E;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.pagination button:disabled {
+  background-color: #555555;
+  border-color: #555555;
+  cursor: not-allowed;
+  color: #cccccc;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #b10d24;
+  border-color: #b10d24;
+}
+
+.pagination span {
+  font-weight: bold;
+  color: black;
+}
+
+@media (prefers-color-scheme: dark) {
+  .pagination span {
+    color: white;
+  }
+  .pagination button {
+    background-color: #333;
+    border-color: #333;
+  }
+  .pagination button:hover:not(:disabled) {
+    background-color: #444;
+    border-color: #444;
+  }
+}

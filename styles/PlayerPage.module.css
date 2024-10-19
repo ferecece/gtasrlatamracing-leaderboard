@@ -1,0 +1,68 @@
+.container {
+    padding: 2rem;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  
+  .main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .playerInfoSection {
+    flex: 1;
+    max-width: 300px;
+  }
+  
+  .statsSection {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .centered {
+    text-align: center;
+    padding: 2rem 0;
+  }
+  
+  .button {
+    margin-top: 20px;
+    background-color: #9a031e;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+  }
+  
+  .button:hover {
+    background-color: #b10d24;
+  }
+  
+  @media (max-width: 992px) {
+    .row {
+      flex-direction: column;
+    }
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .container {
+      color: white;
+    }
+
+  
+    .button:hover {
+      background-color: #444;
+    }
+  }
+  
