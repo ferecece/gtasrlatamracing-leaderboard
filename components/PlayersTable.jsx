@@ -18,7 +18,7 @@ const PlayersTable = () => {
   });
 
   const paginatedPlayers = topPlayers
-    ? topPlayers.slice(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE)
+    ? topPlayers?.slice(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE)
     : [];
 
   const totalPages = topPlayers ? Math.ceil(topPlayers.length / ITEMS_PER_PAGE) : 0;

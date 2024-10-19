@@ -1,10 +1,11 @@
 import Flag from "@components/icons/Flag";
 import styles from "@styles/PlayerPage.module.css";
 import ColoredText from "@components/ColoredText";
-import { getSkinUrl } from "@lib/utils";
 import Spinner from "@components/Spinner";
 import SkinImage from "./icons/SkinImage";
 import dayjs from "@lib/dayjsConfig";
+
+const clientTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 const PlayerInfo = ({ player }) => {
   if (!player) {
@@ -25,7 +26,9 @@ const PlayerInfo = ({ player }) => {
   const lastOnline =
     player.last_online === "online"
       ? "En línea"
-      : dayjs(player.last_online).fromNow();
+      : dayjs.utc(player.last_online)
+          .tz(clientTimeZone)
+          .fromNow();
 
   return (
     <div className={styles.infoCard}>

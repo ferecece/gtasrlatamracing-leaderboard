@@ -9,9 +9,9 @@ import { useState } from 'react';
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const ITEMS_PER_PAGE = 15;
+const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 const PlayerTimesTable = ({ player }) => {
-  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const [page, setPage] = useState(0);
 
   const { data: toptimes, error, isLoading } = useSWR(
@@ -20,7 +20,7 @@ const PlayerTimesTable = ({ player }) => {
   );
 
   const paginatedTimes = toptimes
-    ? toptimes.slice(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE)
+    ? toptimes?.slice(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE)
     : [];
 
   const totalPages = toptimes ? Math.ceil(toptimes.length / ITEMS_PER_PAGE) : 0;
