@@ -26,11 +26,12 @@ export default async (req, res) => {
         {
           model: RaceToptime,
           as: "mapToptimes",
+          required: false,
           attributes: ["timeMs", "dateRecorded"],
           include: [
             {
               model: Player,
-              attributes: ["id", "name", "country", "skinID", "last_online"],
+              attributes: ["id", "name", "country", "skinID", "lastOnline"],
               as: "player",
             },
           ],
@@ -41,7 +42,7 @@ export default async (req, res) => {
     if (!raceMap) {
       return res
         .status(404)
-        .json({ error: "No se encuentra el mapa especificado." });
+        .json({ error: "No se encuentra el mapa." });
     }
 
     raceMap.mapToptimes = raceMap.mapToptimes.sort(

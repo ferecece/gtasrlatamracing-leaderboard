@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   try {
     const players = await Player.findAll({
       where: { points: { [Op.gt]: 0 } },
-      attributes: ["id", "name", "last_online", "country", "points", "skinID"],
+      attributes: ["id", "name", "lastOnline", "country", "points", "skinID"],
       order: [["points", "DESC"]],
       raw: true,
     });

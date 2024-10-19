@@ -83,7 +83,7 @@ export default async (req, res) => {
       attributes: [
         "id",
         "name",
-        "last_online",
+        "lastOnline",
         "country",
         "points",
         "skinID",

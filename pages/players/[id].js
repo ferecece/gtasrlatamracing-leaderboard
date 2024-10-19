@@ -46,7 +46,11 @@ const PlayerPage = () => {
       <div className={styles.container}>
         {error ? (
           <main className={styles.centered}>
-            <p>{error.message}</p>
+            <p>
+            {error.status === 500 || error.status === 400
+        ? error.message
+        : "No pudimos encontrar el perfil de este jugador. Es posible que la cuenta haya sido eliminada."}
+            </p>
             <Link href="/" className={styles.button}>Volver al inicio</Link>
           </main>
         ) : (

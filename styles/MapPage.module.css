@@ -117,3 +117,41 @@
     height: 100vh;
   }
   
+  .centered {
+    text-align: center;
+    padding: 2rem 0;
+  }
+  
+  .button {
+    margin-top: 20px;
+    background-color: #9a031e;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+  }
+  
+  .button:hover {
+    background-color: #b10d24;
+  }
+  
+  @media (max-width: 992px) {
+    .row {
+      flex-direction: column;
+    }
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .container {
+      color: white;
+    }
+
+  
+    .button:hover {
+      background-color: #444;
+    }
+  }
+  
