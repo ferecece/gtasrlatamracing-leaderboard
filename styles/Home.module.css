@@ -1,12 +1,5 @@
-.container {
-  padding: 0 2rem;
-  max-width: 1280px;
-  margin-inline: auto;
-}
-
 .main {
-  min-height: 80vh;
-  padding: 4rem 0;
+  min-height: 5vh;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -21,6 +14,12 @@
   margin-bottom: 16px;
 }
 
+.searchbar-maps {
+  width: 100%;
+  display: grid;
+}
+
+
 .row-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -30,8 +29,9 @@
 
 .footer {
   display: flex;
-  gap: 1.5rem;
+  gap: 3rem;
   padding: 2rem 0;
+  margin-top: 2rem;
   border-top: 1px solid #eaeaea;
   justify-content: center;
   align-items: center;
@@ -145,17 +145,11 @@
   font-weight: normal;
 }
 
-.searchbar-maps {
-  width: 100%;
-  margin-bottom: 16px;
-  color: black;
-}
-
 .nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  padding: 5px 15px;
   margin-bottom: 20px;
   border-bottom: 1px solid #eaeaea;
 }
@@ -165,21 +159,26 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  margin: 0 auto;
 }
 
-.leftSection {
+.leftSection, .centerSection, .rightSection {
   flex: 1;
+  padding: 0 10px;
 }
 
 .centerSection {
-  flex: 1;
   text-align: center;
 }
 
 .rightSection {
-  flex: 1;
   text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
+
+
 .statusIndicator {
   width: 10px;
   height: 10px;
@@ -188,8 +187,27 @@
   margin-right: 8px;
 }
 
+@media (max-width: 768px) {
+  .navbarContainer {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .leftSection,
+  .centerSection,
+  .rightSection {
+    text-align: center;
+    padding: 5px 0;
+  }
+
+  .rightSection {
+    align-items: center;
+  }
+}
+
 .container {
-  padding: 0 2rem;
+  padding: 0 1rem;
   max-width: 1280px;
   margin-inline: auto;
 }

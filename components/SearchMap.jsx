@@ -30,7 +30,6 @@ const SearchMap = () => {
 
   const usePrefersDarkMode = () => {
     const [isDarkMode, setIsDarkMode] = useState(false);
-  
     useEffect(() => {
       const matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
       setIsDarkMode(matchMedia.matches);
@@ -107,9 +106,9 @@ const SearchMap = () => {
 
 
   return (
-    <div style={{ maxWidth: '400px', margin: '0 auto' }}>
       <AsyncSelect
         cacheOptions
+        defaultOptions={allMaps || []}
         loadOptions={loadOptions}
         getOptionLabel={(option) => option.infoName}
         getOptionValue={(option) => option.resName}
@@ -117,11 +116,9 @@ const SearchMap = () => {
         value={selectedMap}
         placeholder={error ? 'Error al cargar' : isLoading ? 'Cargando...' : 'Buscar mapa...'}
         isClearable
-        classNamePrefix="react-select"
         styles={usePrefersDarkMode() ? darkModeStyles : customStyles}
         noOptionsMessage={() => 'No hay mapas disponibles'}
       />
-    </div>
   );
 };
 

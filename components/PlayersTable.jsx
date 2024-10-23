@@ -5,6 +5,7 @@ import Link from 'next/link';
 import ColoredText from '@components/ColoredText';
 import ShimmerLoader from '@components/ShimmerLoader';
 import { useState } from 'react';
+import Image from 'next/image';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -29,8 +30,8 @@ const PlayersTable = () => {
   return (
     <div>
       <table className={styles.table}>
-        <caption className={styles.caption}>
-          <h4>Ranking de Jugadores</h4>
+        <caption>
+          <h2>Ranking Global</h2>
         </caption>
         <thead>
           <tr>
@@ -51,11 +52,11 @@ const PlayersTable = () => {
               <tr key={player.rank}>
                 <th className={styles.alignCenter}>
                   {player.rank === 1 ? (
-                    <img src="/places/1st.png" alt="Top 1" width={16} height={16} />
+                    <Image src="/places/1st.png" width={16} height={16} alt="Top 1" />
                   ) : player.rank === 2 ? (
-                    <img src="/places/2nd.png" alt="Top 2" width={16} height={16} />
+                    <Image src="/places/2nd.png" width={16} height={16} alt="Top 2" />
                   ) : player.rank === 3 ? (
-                    <img src="/places/3rd.png" alt="Top 3" width={16} height={16} />
+                    <Image src="/places/3rd.png" width={16} height={16} alt="Top 3" />
                   ) : (
                     player.rank
                   )}

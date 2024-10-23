@@ -5,6 +5,7 @@ import { msToTime } from '@lib/utils';
 import dayjs from '@lib/dayjsConfig';
 import ShimmerLoader from '@components/ShimmerLoader';
 import { useState } from 'react';
+import Image from 'next/image';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -31,9 +32,6 @@ const PlayerTimesTable = ({ player }) => {
   return (
     <div>
       <table className={styles.table}>
-        <caption className={styles.caption}>
-          <h4>Tiempos</h4>
-        </caption>
         <thead>
           <tr>
             <th className={styles.alignCenter}>#</th>
@@ -54,11 +52,11 @@ const PlayerTimesTable = ({ player }) => {
               <tr key={i}>
                 <th className={styles.alignCenter}>
                   {toptime.position === 1 ? (
-                    <img src="/places/1st.png" alt="Top 1" width={16} height={16} />
+                    <Image src="/places/1st.png" alt="Top 1" width={16} height={16} />
                   ) : toptime.position === 2 ? (
-                    <img src="/places/2nd.png" alt="Top 2" width={16} height={16} />
+                    <Image src="/places/2nd.png" alt="Top 2" width={16} height={16} />
                   ) : toptime.position === 3 ? (
-                    <img src="/places/3rd.png" alt="Top 3" width={16} height={16} />
+                    <Image src="/places/3rd.png" alt="Top 3" width={16} height={16} />
                   ) : (
                     toptime.position
                   )}

@@ -7,6 +7,8 @@ import Spinner from "@components/Spinner";
 import ColoredText from "@components/ColoredText";
 import dayjs from "@lib/dayjsConfig";
 import { msToTime } from "@lib/utils";
+import Image from "next/image";
+import Head from "next/head";
 
 const fetcher = async (url) => {
   const res = await fetch(url);
@@ -33,6 +35,10 @@ const MapPage = () => {
   if (error) {
     return (
       <div className={styles.container}>
+        <Head>
+          <title>Error | GTA Speedrun LATAM Racing</title>
+          <meta name="description" content="Error al cargar el mapa." />
+        </Head>
         <div className={styles.centered}>
           <p>Error: {error.message}</p>
           <Link href="/" className={styles.button}>
@@ -46,6 +52,28 @@ const MapPage = () => {
   if (isLoading || !map) {
     return (
       <div className={styles.spinnerContainer}>
+        <Head>
+          <title>GTA Speedrun LATAM Racing</title>
+          <meta
+            name="description"
+            content="Explora los récords de mapas en GTA Speedrun LATAM Racing."
+          />
+          <meta
+            name="keywords"
+            content="MTA, GTA, Speedrun, LATAM, Racing, Runs"
+          />
+          <meta property="og:title" content="GTA Speedrun LATAM Racing" />
+          <meta
+            property="og:description"
+            content="Explora los récords de mapas en GTA Speedrun LATAM Racing."
+          />
+          <meta
+            property="og:url"
+            content={`https://mta.gtaspeedrun.lat/maps/${id}`}
+          />
+          <meta property="og:type" content="website" />
+          <meta name="twitter:card" content="summary_large_image" />
+        </Head>
         <Spinner />
       </div>
     );
@@ -53,12 +81,52 @@ const MapPage = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>{map.infoName}</h1>
-      <p className={styles.author}>
-        <strong>Contribución de:</strong> {map.author ?? "Anónimo"}
-      </p>
-      <p className={styles.played}>
-        <strong>Última vez:</strong>{" "}
+      <Head>
+        <title>
+          {map
+            ? `${map.infoName} | GTA Speedrun LATAM Racing`
+            : "GTA Speedrun LATAM Racing"}
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="description"
+          content="Explora los récords de mapas en GTA Speedrun LATAM Racing."
+        />
+        <meta
+          name="keywords"
+          content="MTA, GTA, Speedrun, LATAM, Racing, Mapa, Contribución, Runs, Jugador, Tiempo, Fecha"
+        />
+        <meta
+          property="og:title"
+          content={
+            map
+              ? `${map.infoName} | GTA Speedrun LATAM Racing`
+              : "GTA Speedrun LATAM Racing"
+          }
+        />
+        <meta
+          property="og:description"
+          content="Explora los récords de mapas en GTA Speedrun LATAM Racing."
+        />
+        <meta
+          property="og:url"
+          content={`https://mta.gtaspeedrun.lat/maps/${id}`}
+        />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <meta property="og:image" content="/preview.png" />
+      </Head>
+      <h1 className={styles.title}>{`Mapa ${map.infoName}`}</h1>
+      <h2 className={styles.author}>
+        Contribución de {map.author ?? "Anónimo"}
+      </h2>
+      <h2 className={styles.played}>
+        Última vez jugado{" "}
         <span
           title={
             map.lastTimePlayed
@@ -72,12 +140,12 @@ const MapPage = () => {
             ? dayjs(map.lastTimePlayed * 1000)
                 .tz(timeZone)
                 .fromNow()
-            : "Sin registros recientes"}
+            : "sin registros recientes"}
         </span>
-      </p>
-      <p className={styles.played}>
-        <strong>Runs completadas:</strong> {map.playedCount ?? "0"}
-      </p>
+      </h2>
+      <h2 className={styles.played}>
+        Runs completadas {map.playedCount}
+      </h2>
       {map.mapToptimes && map.mapToptimes.length > 0 ? (
         <table className={styles.table}>
           <thead>
@@ -93,21 +161,21 @@ const MapPage = () => {
               <tr key={index}>
                 <td className={styles.alignCenter}>
                   {index + 1 === 1 ? (
-                    <img
+                    <Image
                       src="/places/1st.png"
                       alt="Top 1"
                       width={16}
                       height={16}
                     />
                   ) : index + 1 === 2 ? (
-                    <img
+                    <Image
                       src="/places/2nd.png"
                       alt="Top 2"
                       width={16}
                       height={16}
                     />
                   ) : index + 1 === 3 ? (
-                    <img
+                    <Image
                       src="/places/3rd.png"
                       alt="Top 3"
                       width={16}
@@ -147,8 +215,8 @@ const MapPage = () => {
         <div className={styles.container}>
           <div className={styles.centered}>
             <p>
-              Aún no hay tiempos registrados para este mapa. ¡Sé el primero
-              en marcar un récord!
+              Aún no hay tiempos registrados para este mapa. ¡Sé el primero en
+              marcar un récord!
             </p>
             <Link href="/" className={styles.button}>
               Volver al inicio

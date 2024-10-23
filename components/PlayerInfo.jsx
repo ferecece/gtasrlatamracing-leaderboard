@@ -4,6 +4,7 @@ import ColoredText from "@components/ColoredText";
 import Spinner from "@components/Spinner";
 import SkinImage from "./icons/SkinImage";
 import dayjs from "@lib/dayjsConfig";
+import Image from "next/image";
 
 const clientTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -41,30 +42,30 @@ const PlayerInfo = ({ player }) => {
       <div className={`row ${styles.infoContent}`}>
         <div className={`col lg-10 md-5 ${styles.pointsInfo}`}>
           <div>
-            <h3 className={styles.infoName}>Puntos</h3>
+            <h2 className={styles.infoName}>Puntos</h2>
             <p>{player.points || 0}</p>
           </div>
           <div>
-            <h3 className={styles.infoName}>Ranking</h3>
+            <h2 className={styles.infoName}>Ranking</h2>
             <p>{player.ranking || "-"}</p>
           </div>
           <div>
-            <h3 className={styles.infoName}>Última vez</h3>
+            <h2 className={styles.infoName}>Última vez</h2>
             <p>{lastOnline}</p>
           </div>
         </div>
 
         <div className={`col lg-10 md-5 ${styles.tops}`}>
           <p>
-            <img src="/places/1st.png" height="24" alt="Top 1" />{" "}
+            <Image src="/places/1st.png" width={24} height={24} alt="Top 1" />{" "}
             {player.timeRanks.firstPlaceCount}
           </p>
           <p>
-            <img src="/places/2nd.png" height="24" alt="Top 2" />{" "}
+            <Image src="/places/2nd.png" width={24} height={24} alt="Top 2" />{" "}
             {player.timeRanks.secondPlaceCount}
           </p>
           <p>
-            <img src="/places/3rd.png" height="24" alt="Top 3" />{" "}
+            <Image src="/places/3rd.png" width={24} height={24} alt="Top 3" />{" "}
             {player.timeRanks.thirdPlaceCount}
           </p>
         </div>

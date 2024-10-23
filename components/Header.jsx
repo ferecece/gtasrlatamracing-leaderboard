@@ -53,12 +53,7 @@ const Header = () => {
 
         <div className={styles.rightSection}>
           {!error && serverInfo && (
-            <>
-              <p>Mapa activo: {serverInfo.map}</p>
-              <p>
-                Jugadores: {`${serverInfo.players}/${serverInfo.max_players}`}
-              </p>
-            </>
+              <p>Mapa activo: {serverInfo.map}<br/>Jugadores: {`${serverInfo.players}/${serverInfo.max_players}`}</p>                
           )}
           <></>
         </div>
