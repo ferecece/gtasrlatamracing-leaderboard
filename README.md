@@ -71,7 +71,7 @@ Una aplicación web creada con **Next.js** para mostrar un leaderboard en tiempo
 ## 🙏 Agradecimientos  
 Queremos expresar nuestro agradecimiento especial a:  
 
-- 👨‍💻 **dinojoaco y pcurz**, por su colaboración en el desarrollo del proyecto.  
+- 👨‍💻 **dinojoaco, feroci y pcurz**, por su colaboración en el desarrollo del proyecto.  
 - 🏆 La comunidad de **GTA Speedrun LATAM**, cuyo entusiasmo y participación hacen posible este leaderboard.  
 - 💡 A todos los colaboradores que contribuyeron con ideas y pruebas.  
 
