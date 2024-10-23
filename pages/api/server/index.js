@@ -3,7 +3,7 @@ import { getServerInfo } from "@bsnext/mta-ase-query";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async (req, res) => {
     try {
-        const serverInfo = await getServerInfo(process.env.MTA_HOST, parseInt(process.env.MTA_PORT), 5000);
+        const serverInfo = await getServerInfo(process.env.NEXT_PUBLIC_MTA_HOST, parseInt(process.env.NEXT_PUBLIC_MTA_PORT), 5000);
         delete serverInfo.ip;
         delete serverInfo.port;
         delete serverInfo.private;
