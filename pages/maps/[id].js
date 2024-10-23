@@ -87,7 +87,6 @@ const MapPage = () => {
             ? `${map.infoName} | GTA Speedrun LATAM Racing`
             : "GTA Speedrun LATAM Racing"}
         </title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="description"
           content="Explora los récords de mapas en GTA Speedrun LATAM Racing."
