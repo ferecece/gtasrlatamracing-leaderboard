@@ -119,14 +119,14 @@ const MapPage = () => {
         <span
           title={
             toptimes.lastTimePlayed
-              ? dayjs(toptimes.lastTimePlayed * 1000)
+              ? dayjs(toptimes.lastTimePlayed)
                   .tz(timeZone)
                   .format("DD/MM/YY HH:mm:ss")
               : "Sin registros disponibles"
           }
         >
           {toptimes.lastTimePlayed
-            ? dayjs(toptimes.lastTimePlayed * 1000)
+            ? dayjs(toptimes.lastTimePlayed)
                 .tz(timeZone)
                 .fromNow()
             : "sin registros recientes"}
