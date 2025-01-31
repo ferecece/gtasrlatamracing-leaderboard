@@ -193,7 +193,7 @@ const MapPage = () => {
                       "DD/MM/YYYY HH:mm:ss"
                     )}
                   >
-                    {dayjs.utc(time.recordedAtMs).tz(timeZone).fromNow()}
+                    {dayjs(time.recordedAtMs).tz(timeZone).fromNow()}
                   </span>
                 </td>
               </tr>

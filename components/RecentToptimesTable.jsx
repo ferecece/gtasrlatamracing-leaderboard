@@ -33,7 +33,7 @@ const RecentToptimesTable = () => {
           <ShimmerLoader rows={20} /> 
         ) : toptimes.length > 0 ? (
           toptimes.map((toptime, i) => {
-            const dateRecorded = dayjs.utc(toptime.recordedAtMs).tz(timeZone);
+            const dateRecorded = dayjs(toptime.recordedAtMs).tz(timeZone);
             return (
               <tr key={i}>
                 <th className={styles.alignCenter}>

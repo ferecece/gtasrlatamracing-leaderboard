@@ -61,7 +61,7 @@ const PlayerInfo = ({ player, isLoading }) => {
   const lastOnline =
     player.lastOnlineMs === "online"
       ? "En línea"
-      : dayjs.utc(player.lastOnlineMs)
+      : dayjs(player.lastOnlineMs)
           .tz(clientTimeZone)
           .fromNow();
 

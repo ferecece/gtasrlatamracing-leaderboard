@@ -47,7 +47,7 @@ const PlayerTimesTable = ({ player }) => {
             </tr>
           ) : paginatedTimes.length > 0 ? (
             paginatedTimes.map((toptime, i) => {
-              const dateRecorded = dayjs.utc(toptime.recordedAtMs).tz(timeZone);
+              const dateRecorded = dayjs(toptime.recordedAtMs).tz(timeZone);
               return (
                 <tr key={i}>
                   <th className={styles.alignCenter}>
