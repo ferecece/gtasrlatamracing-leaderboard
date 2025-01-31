@@ -12,16 +12,9 @@ const mapSchema = z.object({
 });
 
 export default async (req, res) => {
-  const parsedQuery = mapSchema.safeParse(req.query);
-
-  if (!parsedQuery.success) {
-    const errorMessage = parsedQuery.error.errors[0].message;
-    return res.status(400).json({ error: errorMessage });
-  }
-
   try {
     const map = await Map.findOne({
-      where: { resName: parsedQuery.data.mapResName },
+      where: { resName: req.query.mapResName },
       include: [
         {
           model: Toptime,
@@ -40,14 +33,10 @@ export default async (req, res) => {
     });
 
     if (!map) {
-      return res
-        .status(404)
-        .json({ error: "No se encuentra el mapa." });
+      return res.status(404).json({ error: "No se encuentra el mapa." });
     }
 
-    map.mapToptimes = map.mapToptimes.sort(
-      (a, b) => a.timeMs - b.timeMs
-    );
+    map.mapToptimes = map.mapToptimes.sort((a, b) => a.timeMs - b.timeMs);
     return res.status(200).json(map);
   } catch (error) {
     console.error("Error interno del servidor:", error);
