@@ -7,18 +7,13 @@ import Flag from "@components/icons/Flag";
 import ColoredText from "@components/ColoredText";
 import ShimmerLoader from "@components/ShimmerLoader";
 import Image from "next/image";
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
+import useRecent from "hooks/useRecent";
 
 const RecentToptimesTable = () => {
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const { data: toptimes, error, isLoading } = useSWR(
-    "/api/toptimes/recent",
-    fetcher,
-    { refreshInterval: 10000 }
-  );
-
+  const { toptimes, isError, isLoading } = useRecent();
+  
   return (
     <table className={styles.table}>
       <caption>
@@ -36,9 +31,9 @@ const RecentToptimesTable = () => {
       <tbody>
         {isLoading ? (
           <ShimmerLoader rows={20} /> 
-        ) : toptimes && toptimes.length > 0 ? (
+        ) : toptimes.length > 0 ? (
           toptimes.map((toptime, i) => {
-            const dateRecorded = dayjs.utc(toptime.dateRecorded).tz(timeZone);
+            const dateRecorded = dayjs.utc(toptime.recordedAtMs).tz(timeZone);
             return (
               <tr key={i}>
                 <th className={styles.alignCenter}>
@@ -81,8 +76,8 @@ const RecentToptimesTable = () => {
                 </td>
                 <td>{msToTime(toptime.timeMs)}</td>
                 <td>
-                  <Link href={`/maps/${toptime.raceMap.resName}`}>
-                  {toptime.raceMap.infoName}
+                  <Link href={`/maps/${toptime.map.resName}`}>
+                  {toptime.map.infoName}
                   </Link>
                 </td>
                 <td>
@@ -95,7 +90,7 @@ const RecentToptimesTable = () => {
           })
         ) : (
           <tr>
-            <td colSpan={5}>No hay tiempos recientes.</td>
+            <td colSpan={5}>{isError ? "Ocurrió un error al obtener los tiempos." : "No hay tiempos recientes."}</td>
           </tr>
         )}
       </tbody>

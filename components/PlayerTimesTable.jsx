@@ -1,13 +1,12 @@
-import useSWR from 'swr';
-import styles from '@styles/Home.module.css';
-import Link from 'next/link';
-import { msToTime } from '@lib/utils';
-import dayjs from '@lib/dayjsConfig';
-import ShimmerLoader from '@components/ShimmerLoader';
-import { useState } from 'react';
-import Image from 'next/image';
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
+import useSWR from "swr";
+import styles from "@styles/Home.module.css";
+import Link from "next/link";
+import { msToTime } from "@lib/utils";
+import dayjs from "@lib/dayjsConfig";
+import ShimmerLoader from "@components/ShimmerLoader";
+import { useState } from "react";
+import Image from "next/image";
+import usePlayerTimes from "hooks/usePlayerTimes";
 
 const ITEMS_PER_PAGE = 15;
 const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -15,18 +14,17 @@ const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const PlayerTimesTable = ({ player }) => {
   const [page, setPage] = useState(0);
 
-  const { data: toptimes, error, isLoading } = useSWR(
-    player?.id ? `/api/toptimes/player/${player.id}` : null,
-    fetcher
-  );
+  const { toptimes, isError, isLoading } = usePlayerTimes(player?.id);
 
-  const paginatedTimes = toptimes
-    ? toptimes?.slice(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE)
-    : [];
+  const paginatedTimes = toptimes.slice(
+    page * ITEMS_PER_PAGE,
+    (page + 1) * ITEMS_PER_PAGE
+  );
 
   const totalPages = toptimes ? Math.ceil(toptimes.length / ITEMS_PER_PAGE) : 0;
 
-  const handleNextPage = () => setPage((prev) => Math.min(prev + 1, totalPages - 1));
+  const handleNextPage = () =>
+    setPage((prev) => Math.min(prev + 1, totalPages - 1));
   const handlePrevPage = () => setPage((prev) => Math.max(prev - 1, 0));
 
   return (
@@ -41,39 +39,57 @@ const PlayerTimesTable = ({ player }) => {
           </tr>
         </thead>
         <tbody>
-          {(!player || isLoading) ? (
+          {!player || isLoading ? (
             <ShimmerLoader rows={ITEMS_PER_PAGE} columns={4} />
-          ) : error ? (
+          ) : isError ? (
             <tr>
               <td colSpan={4}>Error al obtener los tiempos.</td>
             </tr>
           ) : paginatedTimes.length > 0 ? (
-            paginatedTimes.map((toptime, i) => (
-              <tr key={i}>
-                <th className={styles.alignCenter}>
-                  {toptime.position === 1 ? (
-                    <Image src="/places/1st.png" alt="Top 1" width={16} height={16} />
-                  ) : toptime.position === 2 ? (
-                    <Image src="/places/2nd.png" alt="Top 2" width={16} height={16} />
-                  ) : toptime.position === 3 ? (
-                    <Image src="/places/3rd.png" alt="Top 3" width={16} height={16} />
-                  ) : (
-                    toptime.position
-                  )}
-                </th>
-                <td>{msToTime(toptime.timeMs)}</td>
-                <td>
-                  <Link href={`/maps/${toptime.raceMap.resName}`}>
-                    {toptime.raceMap.infoName}
-                  </Link>
-                </td>
-                <td>
-                  <span title={dayjs(toptime.dateRecorded).format('DD/MM/YYYY HH:mm:ss')}>
-                    {dayjs.utc(toptime.dateRecorded).tz(timeZone).fromNow()}
-                  </span>
-                </td>
-              </tr>
-            ))
+            paginatedTimes.map((toptime, i) => {
+              const dateRecorded = dayjs.utc(toptime.recordedAtMs).tz(timeZone);
+              return (
+                <tr key={i}>
+                  <th className={styles.alignCenter}>
+                    {toptime.position === 1 ? (
+                      <Image
+                        src="/places/1st.png"
+                        alt="Top 1"
+                        width={16}
+                        height={16}
+                      />
+                    ) : toptime.position === 2 ? (
+                      <Image
+                        src="/places/2nd.png"
+                        alt="Top 2"
+                        width={16}
+                        height={16}
+                      />
+                    ) : toptime.position === 3 ? (
+                      <Image
+                        src="/places/3rd.png"
+                        alt="Top 3"
+                        width={16}
+                        height={16}
+                      />
+                    ) : (
+                      toptime.position
+                    )}
+                  </th>
+                  <td>{msToTime(toptime.timeMs)}</td>
+                  <td>
+                    <Link href={`/maps/${toptime.map.resName}`}>
+                      {toptime.map.infoName}
+                    </Link>
+                  </td>
+                  <td>
+                    <span title={dateRecorded.format("DD/MM/YYYY HH:mm:ss")}>
+                      {dateRecorded.fromNow()}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })
           ) : (
             <tr>
               <td colSpan={4}>El jugador no tiene tiempos.</td>

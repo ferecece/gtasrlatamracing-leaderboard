@@ -1,13 +1,13 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { z } from "zod";
-import { RaceMap, RaceToptime, Player } from "@lib/models";
+import { Map, Player, Toptime } from "@lib/models";
 
 const mapSchema = z.object({
   mapResName: z
     .string()
     .regex(
-      /^[A-Z0-9]+-[A-Za-z0-9]+$/,
-      "El nombre del mapa tiene un formato inválido."
+      /^([A-Z][a-zA-Z0-9]*)(-[A-Z][a-zA-Z0-9]*)*$/,
+      "El nombre del mapa debe estar en PascalCase y seguir el formato correcto."
     ),
 });
 
@@ -20,18 +20,18 @@ export default async (req, res) => {
   }
 
   try {
-    const raceMap = await RaceMap.findOne({
+    const map = await Map.findOne({
       where: { resName: parsedQuery.data.mapResName },
       include: [
         {
-          model: RaceToptime,
+          model: Toptime,
           as: "mapToptimes",
           required: false,
-          attributes: ["timeMs", "dateRecorded"],
+          attributes: ["timeMs", "recordedAtMs"],
           include: [
             {
               model: Player,
-              attributes: ["id", "name", "country", "skinID", "lastOnline"],
+              attributes: ["id", "name", "country", "skinId", "lastOnlineMs"],
               as: "player",
             },
           ],
@@ -39,16 +39,16 @@ export default async (req, res) => {
       ],
     });
 
-    if (!raceMap) {
+    if (!map) {
       return res
         .status(404)
         .json({ error: "No se encuentra el mapa." });
     }
 
-    raceMap.mapToptimes = raceMap.mapToptimes.sort(
+    map.mapToptimes = map.mapToptimes.sort(
       (a, b) => a.timeMs - b.timeMs
     );
-    return res.status(200).json(raceMap);
+    return res.status(200).json(map);
   } catch (error) {
     console.error("Error interno del servidor:", error);
     return res.status(500).json({ error: "Error interno del servidor." });

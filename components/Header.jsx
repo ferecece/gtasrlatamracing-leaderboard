@@ -1,27 +1,12 @@
-import useSWR from 'swr';
 import Link from 'next/link';
 import styles from '@styles/Home.module.css';
 import Spinner from '@components/Spinner';
+import useServer from 'hooks/useServer';
 
-const fetcher = async (url) => {
-  const res = await fetch(url);
-  const data = await res.json();
-  if (!res.ok) {
-    const error = new Error(data.error || 'Ocurrió un error inesperado');
-    error.status = res.status;
-    throw error;
-  }
-  return data;
-};
 
 const Header = () => {
-  const { data: serverInfo, error, isLoading } = useSWR(
-    '/api/server',
-    fetcher,
-    { refreshInterval: 10000 }
-  );
-
-  const statusColor = error ? 'red' : 'green';
+  const { server, isError, isLoading } = useServer();
+  const statusColor = isError ? 'red' : 'green';
 
   return (
     <nav className={styles.nav}>
@@ -42,8 +27,8 @@ const Header = () => {
         <div className={styles.centerSection}>
           {isLoading ? (
             <Spinner />
-          ) : error? (
-            <p>{error.message}</p>
+          ) : isError? (
+            <p>{isError.message}</p>
           ) : (
             <Link href="mtasa://sv.gtaspeedrun.lat:36129">
               sv.gtaspeedrun.lat:36129
@@ -52,8 +37,8 @@ const Header = () => {
         </div>
 
         <div className={styles.rightSection}>
-          {!error && serverInfo && (
-              <p>Mapa activo: {serverInfo.map}<br/>Jugadores: {`${serverInfo.players}/${serverInfo.max_players}`}</p>                
+          {!isError && server && (
+              <p>Mapa activo: {server.map}<br/>Jugadores: {`${server.players}/${server.max_players}`}</p>                
           )}
           <></>
         </div>

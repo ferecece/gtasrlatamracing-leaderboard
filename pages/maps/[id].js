@@ -9,17 +9,7 @@ import dayjs from "@lib/dayjsConfig";
 import { msToTime } from "@lib/utils";
 import Image from "next/image";
 import Head from "next/head";
-
-const fetcher = async (url) => {
-  const res = await fetch(url);
-  const data = await res.json();
-  if (!res.ok) {
-    const error = new Error(data.error || "Ocurrió un error inesperado");
-    error.status = res.status;
-    throw error;
-  }
-  return data;
-};
+import useToptimes from "hooks/useToptimes";
 
 const MapPage = () => {
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -27,12 +17,12 @@ const MapPage = () => {
   const { id } = router.query;
 
   const {
-    data: map,
-    error,
+    toptimes,
+    isError,
     isLoading,
-  } = useSWR(id ? `/api/toptimes?mapResName=${id}` : null, fetcher);
+  } = useToptimes(id);
 
-  if (error) {
+  if (isError) {
     return (
       <div className={styles.container}>
         <Head>
@@ -40,7 +30,7 @@ const MapPage = () => {
           <meta name="description" content="Error al cargar el mapa." />
         </Head>
         <div className={styles.centered}>
-          <p>Error: {error.message}</p>
+          <p>Error: {isError.message}</p>
           <Link href="/" className={styles.button}>
             Volver al inicio
           </Link>
@@ -49,7 +39,7 @@ const MapPage = () => {
     );
   }
 
-  if (isLoading || !map) {
+  if (isLoading || !toptimes) {
     return (
       <div className={styles.spinnerContainer}>
         <Head>
@@ -83,8 +73,8 @@ const MapPage = () => {
     <div className={styles.container}>
       <Head>
         <title>
-          {map
-            ? `${map.infoName} | GTA Speedrun LATAM Racing`
+          {toptimes
+            ? `${toptimes.infoName} | GTA Speedrun LATAM Racing`
             : "GTA Speedrun LATAM Racing"}
         </title>
         <meta
@@ -98,8 +88,8 @@ const MapPage = () => {
         <meta
           property="og:title"
           content={
-            map
-              ? `${map.infoName} | GTA Speedrun LATAM Racing`
+            toptimes
+              ? `${toptimes?.infoName} | GTA Speedrun LATAM Racing`
               : "GTA Speedrun LATAM Racing"
           }
         />
@@ -120,32 +110,32 @@ const MapPage = () => {
         />
         <meta property="og:image" content="/preview.png" />
       </Head>
-      <h1 className={styles.title}>{`Mapa ${map.infoName}`}</h1>
+      <h1 className={styles.title}>{`Mapa ${toptimes.infoName}`}</h1>
       <h2 className={styles.author}>
-        Contribución de {map.author ?? "Anónimo"}
+        Contribución de {toptimes.author ?? "Desconocido"}
       </h2>
       <h2 className={styles.played}>
         Última vez jugado{" "}
         <span
           title={
-            map.lastTimePlayed
-              ? dayjs(map.lastTimePlayed * 1000)
+            toptimes.lastTimePlayed
+              ? dayjs(toptimes.lastTimePlayed * 1000)
                   .tz(timeZone)
                   .format("DD/MM/YY HH:mm:ss")
               : "Sin registros disponibles"
           }
         >
-          {map.lastTimePlayed
-            ? dayjs(map.lastTimePlayed * 1000)
+          {toptimes.lastTimePlayed
+            ? dayjs(toptimes.lastTimePlayed * 1000)
                 .tz(timeZone)
                 .fromNow()
             : "sin registros recientes"}
         </span>
       </h2>
       <h2 className={styles.played}>
-        Runs completadas {map.playedCount}
+        Runs completadas {toptimes.playedCount}
       </h2>
-      {map.mapToptimes && map.mapToptimes.length > 0 ? (
+      {toptimes.mapToptimes && toptimes.mapToptimes.length > 0 ? (
         <table className={styles.table}>
           <thead>
             <tr>
@@ -156,7 +146,7 @@ const MapPage = () => {
             </tr>
           </thead>
           <tbody>
-            {map.mapToptimes.map((time, index) => (
+            {toptimes.mapToptimes.map((time, index) => (
               <tr key={index}>
                 <td className={styles.alignCenter}>
                   {index + 1 === 1 ? (
@@ -199,11 +189,11 @@ const MapPage = () => {
                 <td>{msToTime(time.timeMs)}</td>
                 <td>
                   <span
-                    title={dayjs(time.dateRecorded).format(
+                    title={dayjs(time.recordedAtMs).format(
                       "DD/MM/YYYY HH:mm:ss"
                     )}
                   >
-                    {dayjs.utc(time.dateRecorded).tz(timeZone).fromNow()}
+                    {dayjs.utc(time.recordedAtMs).tz(timeZone).fromNow()}
                   </span>
                 </td>
               </tr>

@@ -5,36 +5,25 @@ import PlayerTimesTable from "@components/PlayerTimesTable";
 import { removeHexColorCoding } from "@lib/utils";
 import Link from "next/link";
 import PlayerInfo from "@components/PlayerInfo";
-import useSWR from "swr";
-
-const fetcher = async (url) => {
-  const res = await fetch(url);
-  const data = await res.json();
-  if (!res.ok) {
-    const error = new Error(data.error || "Ocurrió un error inesperado");
-    error.status = res.status;
-    throw error;
-  }
-  return data;
-};
+import usePlayer from "hooks/usePlayer";
+import { useEffect } from "react";
 
 const PlayerPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const {
-    data: player,
-    error,
-    isLoading,
-  } = useSWR(id ? `/api/players/${id}` : null, fetcher);
+  const { player, isError, isLoading } = usePlayer(id);
 
   let pageTitle = "GTA Speedrun LATAM Racing";
   if (player) {
     pageTitle = `${removeHexColorCoding(
-      player.name
+      player?.name
     )} | GTA Speedrun LATAM Racing`;
   }
 
+  useEffect(() => {
+    isError && router.replace("/");
+  }, [isError, router]);
   return (
     <div>
       <Head>
@@ -61,11 +50,11 @@ const PlayerPage = () => {
       </Head>
 
       <div className={styles.container}>
-        {error ? (
+        {isError ? (
           <main className={styles.centered}>
             <p>
-              {error.status === 500 || error.status === 400
-                ? error.message
+              {isError.status === 500 || isError.status === 400
+                ? isError.message
                 : "No pudimos encontrar el perfil de este jugador. Es posible que la cuenta haya sido eliminada."}
             </p>
             <Link href="/" className={styles.button}>
@@ -77,11 +66,11 @@ const PlayerPage = () => {
             <div className={styles.row}>
               <div className={styles.playerInfoSection}>
                 <h1>Perfil</h1>
-                <PlayerInfo player={player} />
+                <PlayerInfo player={player} isLoading={isLoading} />
               </div>
               <div className={styles.statsSection}>
                 <h1>Tiempos</h1>
-                <PlayerTimesTable player={player} />
+                <PlayerTimesTable player={player} isLoading={isLoading} />
               </div>
             </div>
           </main>

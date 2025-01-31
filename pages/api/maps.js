@@ -1,4 +1,4 @@
-import { RaceMap } from '@lib/models';
+import { Map } from '@lib/models';
 import { Op } from 'sequelize';
 import { z } from 'zod';
 
@@ -21,9 +21,8 @@ export default async function handler(req, res) {
       ? { infoName: { [Op.like]: `%${search}%` } }
       : {};
 
-    const maps = await RaceMap.findAll({
+    const maps = await Map.findAll({
       where: whereClause,
-      attributes: ['resName', 'infoName', 'author', 'playedCount'],
       raw: true
     });
 

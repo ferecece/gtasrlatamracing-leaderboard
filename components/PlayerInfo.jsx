@@ -8,7 +8,41 @@ import Image from "next/image";
 
 const clientTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-const PlayerInfo = ({ player }) => {
+const SkeletonLoader = () => (
+  <div className={`${styles.infoCard} ${styles.skeletonCard}`}>
+    <div className={styles.skeletonHeader}>
+      <div className={styles.skeletonFlag}></div>
+      <div className={styles.skeletonText} style={{ width: "40%" }}></div>
+    </div>
+    <div className={styles.skeletonSkin}></div>
+
+    <div className={`row ${styles.infoContent}`}>
+      <div className={`col lg-10 md-5 ${styles.pointsInfo}`}>
+        <div>
+          <div className={styles.skeletonText} style={{ width: "60%" }}></div>
+          <div className={styles.skeletonText} style={{ width: "30%" }}></div>
+        </div>
+        <div>
+          <div className={styles.skeletonText} style={{ width: "60%" }}></div>
+          <div className={styles.skeletonText} style={{ width: "30%" }}></div>
+        </div>
+        <div>
+          <div className={styles.skeletonText} style={{ width: "60%" }}></div>
+          <div className={styles.skeletonText} style={{ width: "50%" }}></div>
+        </div>
+      </div>
+
+      <div className={`col lg-10 md-5 ${styles.tops}`}>
+        <div className={styles.skeletonText} style={{ width: "20px", height: "20px" }}></div>
+        <div className={styles.skeletonText} style={{ width: "20px", height: "20px" }}></div>
+        <div className={styles.skeletonText} style={{ width: "20px", height: "20px" }}></div>
+      </div>
+    </div>
+  </div>
+);
+
+const PlayerInfo = ({ player, isLoading }) => {
+  if (isLoading) return <SkeletonLoader />;
   if (!player) {
     return (
       <div
@@ -25,9 +59,9 @@ const PlayerInfo = ({ player }) => {
   }
 
   const lastOnline =
-    player.lastOnline === "online"
+    player.lastOnlineMs === "online"
       ? "En línea"
-      : dayjs.utc(player.lastOnline)
+      : dayjs.utc(player.lastOnlineMs)
           .tz(clientTimeZone)
           .fromNow();
 
@@ -35,9 +69,9 @@ const PlayerInfo = ({ player }) => {
     <div className={styles.infoCard}>
       <h2 style={{ margin: "0 0 16px 0" }}>
         <Flag countryCode={player.country ?? ""} width={24} height={16} />
-        <ColoredText text={player.name} />
+        <ColoredText text={player?.name || ""} />
       </h2>
-      {player.skinID && <SkinImage skinID={player.skinID} />}
+      {player.skinId && <SkinImage skinID={player.skinId} />}
 
       <div className={`row ${styles.infoContent}`}>
         <div className={`col lg-10 md-5 ${styles.pointsInfo}`}>
@@ -58,15 +92,15 @@ const PlayerInfo = ({ player }) => {
         <div className={`col lg-10 md-5 ${styles.tops}`}>
           <p>
             <Image src="/places/1st.png" width={24} height={24} alt="Top 1" />{" "}
-            {player.timeRanks.firstPlaceCount}
+            {player.timeRanks?.firstPlaceCount}
           </p>
           <p>
             <Image src="/places/2nd.png" width={24} height={24} alt="Top 2" />{" "}
-            {player.timeRanks.secondPlaceCount}
+            {player.timeRanks?.secondPlaceCount}
           </p>
           <p>
             <Image src="/places/3rd.png" width={24} height={24} alt="Top 3" />{" "}
-            {player.timeRanks.thirdPlaceCount}
+            {player.timeRanks?.thirdPlaceCount}
           </p>
         </div>
       </div>

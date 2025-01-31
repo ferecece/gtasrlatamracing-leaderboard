@@ -1,19 +1,17 @@
-import { RaceToptime, Player, RaceMap } from '@lib/models';
+import { Toptime, Player, Map } from '@lib/models';
 import { Sequelize } from 'sequelize';
 
 export default async function handler(req, res) {
   try {
-    const recentToptimes = await RaceToptime.findAll({
+    const recentToptimes = await Toptime.findAll({
       include: [
         {
           model: Player,
-          attributes: ['id', 'name', 'country', 'skinID'],
           as: "player"
         },
         {
-          model: RaceMap,
-          attributes: ['infoName', 'resName', 'author', 'playedCount'],
-          as: "raceMap"
+          model: Map,
+          as: "map"
         },
       ],
       attributes: {
@@ -22,17 +20,17 @@ export default async function handler(req, res) {
             Sequelize.literal(`
               (
                 SELECT COUNT(*)
-                FROM race_toptimes AS sub_rt
-                WHERE sub_rt.mapResName = RaceToptime.mapResName
-                AND sub_rt.timeMs < RaceToptime.timeMs
+                FROM toptimes AS sub_rt
+                WHERE sub_rt.mapResName = Toptime.mapResName
+                AND sub_rt.timeMs < Toptime.timeMs
               ) + 1
             `),
             'position',
           ],
         ],
-        exclude: ['id', 'playerID', 'mapResName']
+        exclude: ['id', 'playerId', 'mapResName']
       },
-      order: [['dateRecorded', 'DESC']],
+      order: [['recordedAtMs', 'DESC']],
       limit: 10,
     });
 

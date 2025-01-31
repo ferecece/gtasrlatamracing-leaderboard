@@ -1,23 +1,22 @@
-import { RaceToptime, RaceMap } from '@lib/models';
+import { Toptime, Map } from '@lib/models';
 import { Sequelize } from 'sequelize';
 import { z } from 'zod';
 
-const playerIDSchema = z.string().regex(/^\d+$/).transform(Number).refine((n) => n > 0, {
-  message: 'El playerID debe ser un entero positivo.',
+const playerIdSchema = z.string().regex(/^\d+$/).transform(Number).refine((n) => n > 0, {
+  message: 'El ID del Jugador debe ser un número entero positivo.',
 });
 
 export default async function handler(req, res) {
   try {
     const { id } = req.query;
-    const playerID = playerIDSchema.parse(id);
+    const playerId = playerIdSchema.parse(id);
 
-    const timesByPlayer = await RaceToptime.findAll({
-      where: { playerID },
+    const timesByPlayer = await Toptime.findAll({
+      where: { playerId },
       include: [
         {
-          model: RaceMap,
-          as: 'raceMap',
-          attributes: ['infoName', 'resName', 'author', 'playedCount'],
+          model: Map,
+          as: 'map'
         },
       ],
       attributes: {
@@ -26,17 +25,17 @@ export default async function handler(req, res) {
             Sequelize.literal(`
               (
                 SELECT COUNT(*)
-                FROM race_toptimes AS sub_rt
-                WHERE sub_rt.mapResName = RaceToptime.mapResName
-                AND sub_rt.timeMs < RaceToptime.timeMs
+                FROM toptimes AS sub_t
+                WHERE sub_t.mapResName = Toptime.mapResName
+                AND sub_t.timeMs < Toptime.timeMs
               ) + 1
             `),
             'position',
           ],
         ],
-        exclude: ['id', 'playerID', 'mapResName']
+        exclude: ['id', 'playerId', 'mapResName']
       },
-      order: [['dateRecorded', 'DESC']],
+      order: [['recordedAtMs', 'DESC']],
       raw: true,
       nest: true
     });

@@ -4,7 +4,7 @@ import { Op } from "sequelize";
 export default async function handler(req, res) {
   try {
     const players = await Player.findAll({
-      attributes: ["id", "name", "lastOnline", "country", "points", "skinID"],
+      //attributes: ["id", "name", "lastOnline", "country", "points", "skinID"],
       order: [["points", "DESC"]],
       raw: true,
     });

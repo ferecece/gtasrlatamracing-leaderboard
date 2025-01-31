@@ -14,54 +14,54 @@ const playerIdSchema = z.object({
 
 
 // evil
-const getPlayerTimeRanks = async (playerID) => {
+const getPlayerTimeRanks = async (playerId) => {
   const [tops] = await sequelize.query(
     `
     SELECT 
-      SUM(CASE WHEN rt.timeMs = (
-          SELECT MIN(sub_rt.timeMs) 
-          FROM race_toptimes sub_rt 
-          WHERE sub_rt.mapResName = rt.mapResName
+      SUM(CASE WHEN t.timeMs = (
+          SELECT MIN(sub_t.timeMs) 
+          FROM toptimes sub_t 
+          WHERE sub_t.mapResName = t.mapResName
       ) THEN 1 ELSE 0 END) AS firstPlaceCount,
       
-      SUM(CASE WHEN rt.timeMs = (
-          SELECT MIN(sub_rt.timeMs) 
-          FROM race_toptimes sub_rt 
-          WHERE sub_rt.mapResName = rt.mapResName
-            AND sub_rt.timeMs > (
-                SELECT MIN(sub_rt2.timeMs)
-                FROM race_toptimes sub_rt2 
-                WHERE sub_rt2.mapResName = rt.mapResName
+      SUM(CASE WHEN t.timeMs = (
+          SELECT MIN(sub_t.timeMs) 
+          FROM toptimes sub_t 
+          WHERE sub_t.mapResName = t.mapResName
+            AND sub_t.timeMs > (
+                SELECT MIN(sub_t2.timeMs)
+                FROM toptimes sub_t2 
+                WHERE sub_t2.mapResName = t.mapResName
             )
       ) THEN 1 ELSE 0 END) AS secondPlaceCount,
       
-      SUM(CASE WHEN rt.timeMs = (
-          SELECT MIN(sub_rt.timeMs) 
-          FROM race_toptimes sub_rt 
-          WHERE sub_rt.mapResName = rt.mapResName
-            AND sub_rt.timeMs > (
-                SELECT MIN(sub_rt2.timeMs)
-                FROM race_toptimes sub_rt2 
-                WHERE sub_rt2.mapResName = rt.mapResName
+      SUM(CASE WHEN t.timeMs = (
+          SELECT MIN(sub_t.timeMs) 
+          FROM toptimes sub_t 
+          WHERE sub_t.mapResName = t.mapResName
+            AND sub_t.timeMs > (
+                SELECT MIN(sub_t2.timeMs)
+                FROM toptimes sub_t2 
+                WHERE sub_t2.mapResName = t.mapResName
             )
-            AND sub_rt.timeMs > (
-                SELECT MIN(sub_rt3.timeMs)
-                FROM race_toptimes sub_rt3 
-                WHERE sub_rt3.mapResName = rt.mapResName
-                  AND sub_rt3.timeMs > (
-                      SELECT MIN(sub_rt4.timeMs)
-                      FROM race_toptimes sub_rt4 
-                      WHERE sub_rt4.mapResName = rt.mapResName
+            AND sub_t.timeMs > (
+                SELECT MIN(sub_t3.timeMs)
+                FROM toptimes sub_t3 
+                WHERE sub_t3.mapResName = t.mapResName
+                  AND sub_t3.timeMs > (
+                      SELECT MIN(sub_t4.timeMs)
+                      FROM toptimes sub_t4 
+                      WHERE sub_t4.mapResName = t.mapResName
                   )
             )
       ) THEN 1 ELSE 0 END) AS thirdPlaceCount
     FROM 
-      race_toptimes rt
+      toptimes t
     WHERE 
-      rt.playerID = ?;
+      t.playerId = ?;
     `,
     {
-      replacements: [playerID],
+      replacements: [playerId],
       type: sequelize.QueryTypes.SELECT,
     }
   );
@@ -83,10 +83,10 @@ export default async (req, res) => {
       attributes: [
         "id",
         "name",
-        "lastOnline",
         "country",
         "points",
-        "skinID",
+        "skinId",
+        "lastOnlineMs",
         [
           Sequelize.literal(`(
             SELECT COUNT(*) + 1 
