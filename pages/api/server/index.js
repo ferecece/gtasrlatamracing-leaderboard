@@ -12,7 +12,6 @@ export default async (req, res) => {
         res.status(200).json(serverInfo);
     } catch (e) {
         console.error(e);
-
         res.status(500).json({
             error: "El servidor no está disponible.",
             details: e.message,

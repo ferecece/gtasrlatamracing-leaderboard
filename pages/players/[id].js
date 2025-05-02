@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import Head from "next/head";
-import styles from "@styles/PlayerPage.module.css";
 import PlayerTimesTable from "@components/PlayerTimesTable";
 import { removeHexColorCoding } from "@lib/utils";
 import Link from "next/link";
@@ -49,26 +48,26 @@ const PlayerPage = () => {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
 
-      <div className={styles.container}>
+      <div>
         {isError ? (
-          <main className={styles.centered}>
+          <main>
             <p>
               {isError.status === 500 || isError.status === 400
                 ? isError.message
                 : "No pudimos encontrar el perfil de este jugador. Es posible que la cuenta haya sido eliminada."}
             </p>
-            <Link href="/" className={styles.button}>
+            <Link href="/">
               Volver al inicio
             </Link>
           </main>
         ) : (
-          <main className={styles.main}>
-            <div className={styles.row}>
-              <div className={styles.playerInfoSection}>
+          <main>
+            <div>
+              <div>
                 <h1>Perfil</h1>
                 <PlayerInfo player={player} isLoading={isLoading} />
               </div>
-              <div className={styles.statsSection}>
+              <div>
                 <h1>Tiempos</h1>
                 <PlayerTimesTable player={player} isLoading={isLoading} />
               </div>

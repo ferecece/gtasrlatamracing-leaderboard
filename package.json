@@ -1,6 +1,6 @@
 {
   "name": "gtasrlatamracing-leaderboard",
-  "version": "2.0.1",
+  "version": "2.1.1",
   "author": "dinojoaco, feroci, pcurz",
   "scripts": {
     "dev": "next dev",
@@ -10,6 +10,12 @@
   },
   "dependencies": {
     "@bsnext/mta-ase-query": "^1.2.1",
+    "@emotion/react": "^11.14.0",
+    "@mantine/core": "^7.17.5",
+    "@mantine/dates": "^7.17.5",
+    "@mantine/form": "^7.17.5",
+    "@mantine/hooks": "^7.17.5",
+    "@tabler/icons-react": "^3.31.0",
     "dayjs": "^1.11.13",
     "mysql2": "^3.11.3",
     "next": "^14.2.15",

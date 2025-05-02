@@ -25,6 +25,7 @@ const nextConfig = {
       },
     ];
   },
+  transpilePackages: ['@mantine/core', '@mantine/hooks', '@mantine/form', '@mantine/dates'],
 }
 
 module.exports = nextConfig

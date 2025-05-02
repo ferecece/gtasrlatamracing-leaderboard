@@ -1,115 +1,93 @@
-import AsyncSelect from "react-select/async";
+import { useState, useMemo } from "react";
+import { Combobox, useCombobox, TextInput, Loader, Group, ActionIcon } from "@mantine/core";
 import { useRouter } from "next/router";
 import useMaps from "hooks/useMaps";
-
+import { IconSearch } from "@tabler/icons-react";
 
 const SearchMap = () => {
   const router = useRouter();
   const { maps, isError, isLoading } = useMaps();
-  const isDarkMode = typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const [search, setSearch] = useState("");
+  const combobox = useCombobox();
 
-  const loadOptions = (inputValue, callback) => {
-    callback(maps);
-    console.log(inputValue);
-    const filteredMaps = inputValue.trim().length > 0
-      ? maps.filter((map) =>
-          map.infoName.toLowerCase().includes(inputValue.trim().toLowerCase())
-        )
-      : maps;
+  const filteredMaps = useMemo(() => {
+    if (!maps) return [];
+    if (!search.trim()) return maps;
+    return maps.filter((map) =>
+      map.infoName.toLowerCase().includes(search.trim().toLowerCase())
+    );
+  }, [maps, search]);
 
-    callback(filteredMaps);
-  };
-  const onMapSelect = (map) => {
-    if (map?.resName) router.push(`/maps/${map.resName}`);
-  };
-
-  const customStyles = {
-    control: (base, state) => ({
-      ...base,
-      backgroundColor: isDarkMode
-        ? state.isFocused
-          ? "#333"
-          : "#141414"
-        : state.isFocused
-        ? "#fbba72"
-        : "#fafafa",
-      borderColor: state.isFocused ? "#ffba08" : "#9A031E",
-      color: isDarkMode ? "white" : "black",
-      borderRadius: "8px",
-      boxShadow: state.isFocused ? "0 0 5px rgba(255, 186, 8, 0.5)" : "none",
-      transition: "border-color 0.2s, background-color 0.2s",
-    }),
-    input: (base) => ({
-      ...base,
-      color: isDarkMode ? "white" : "#141414",
-      "::placeholder": { color: "#a29c9b" },
-    }),
-    menu: (base) => ({
-      ...base,
-      backgroundColor: isDarkMode ? "#141414" : "#fafafa",
-      borderRadius: "8px",
-      marginTop: "5px",
-      boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-    }),
-    option: (base, { isFocused, isSelected }) => ({
-      ...base,
-      backgroundColor: isSelected
-        ? "#9A031E"
-        : isFocused
-        ? isDarkMode
-          ? "#444"
-          : "#fbba72"
-        : isDarkMode
-        ? "#141414"
-        : "#ffffff",
-      color: isSelected || isFocused ? "white" : "#141414",
-      cursor: "pointer",
-    }),
-  };
-
-  const darkModeStyles = {
-    control: (base, state) => ({
-      ...base,
-      backgroundColor: state.isFocused ? "#333" : "#141414",
-      borderColor: state.isFocused ? "#ffba08" : "#9A031E",
-      color: "white",
-    }),
-    input: (base) => ({
-      ...base,
-      color: "white",
-      "::placeholder": {
-        color: "#a29c9b",
-      },
-    }),
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#141414",
-    }),
-    option: (base, { isFocused, isSelected }) => ({
-      ...base,
-      backgroundColor: isSelected ? "#9A031E" : isFocused ? "#444" : "#141414",
-      color: "white",
-    }),
+  const handleSelect = (resName) => {
+    if (resName) router.push(`/maps/${resName}`);
   };
 
   return (
-    <AsyncSelect
-      cacheOptions
-      loadOptions={loadOptions}
-      getOptionLabel={(option) => option.infoName}
-      getOptionValue={(option) => option.resName}
-      onChange={onMapSelect}
-      placeholder={
-        isError
-          ? "Error al cargar"
-          : isLoading
-          ? "Cargando..."
-          : "Buscar mapa..."
-      }
-      isClearable
-      styles={isDarkMode ? darkModeStyles : customStyles}
-      noOptionsMessage={() => "No hay mapas disponibles"}
-    />
+    <Combobox
+      store={combobox}
+      onOptionSubmit={handleSelect}
+      withinPortal={false}
+    >
+      <Combobox.Target>
+        <TextInput
+          placeholder={
+            isError
+              ? "Error al cargar"
+              : isLoading
+              ? "Cargando..."
+              : "Buscar mapa..."
+          }
+          value={search}
+          onChange={(event) => {
+            setSearch(event.currentTarget.value);
+            combobox.openDropdown();
+          }}
+          rightSection={
+            isLoading ? (
+              <Loader size="xs" />
+            ) : (
+              <ActionIcon
+                variant="subtle"
+                aria-label="Buscar"
+                onClick={() => {
+                  if (filteredMaps.length > 0) {
+                    router.push(`/maps/${filteredMaps[0].resName}`);
+                  }
+                }}
+                disabled={filteredMaps.length === 0}
+              >
+                <IconSearch size={18} />
+              </ActionIcon>
+            )
+          }
+          disabled={isError}
+          data-autofocus
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && filteredMaps.length > 0) {
+              router.push(`/maps/${filteredMaps[0].resName}`);
+            }
+          }}
+        />
+      </Combobox.Target>
+      <Combobox.Dropdown>
+        <Combobox.Options>
+          {filteredMaps.length === 0 ? (
+            <Combobox.Empty>No hay mapas disponibles</Combobox.Empty>
+          ) : (
+            filteredMaps.map((map) => (
+              <Combobox.Option key={map.resName} value={map.resName}>
+                <Group gap="xs">
+                  <span>{map.infoName}</span>
+                  <span style={{ color: "#888", fontSize: 12 }}>
+                    ({map.resName})
+                  </span>
+                </Group>
+              </Combobox.Option>
+            ))
+          )}
+        </Combobox.Options>
+      </Combobox.Dropdown>
+    </Combobox>
   );
 };
 

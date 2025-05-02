@@ -1,0 +1,62 @@
+GTASRLATAMRACING-LEADERBOARD
+============================
+
+Descripción General
+------------------
+Este es un proyecto de leaderboard (tabla de clasificación) para el servidor de carreras GTA Speedrun LATAM en MTA:SA (Multi Theft Auto: San Andreas). La aplicación permite a los jugadores ver y comparar tiempos de carreras, perfiles de jugadores y estadísticas de mapas.
+
+Tecnologías Principales
+----------------------
+- Next.js 14.2.15
+- React 18.3.1
+- MySQL (mysql2 3.11.3)
+- Sequelize 6.37.4
+- SWR 2.2.5 (para manejo de datos)
+- Zod 3.23.8 (para validación)
+- SASS para estilos
+- Node.js >= 18.12.0 requerido
+
+Estructura del Proyecto
+----------------------
+/pages
+  - index.js (página principal)
+  - /maps (rutas relacionadas con mapas)
+  - /players (rutas relacionadas con jugadores)
+  - /api (endpoints de la API)
+
+/components
+  - SearchMap.jsx (búsqueda de mapas)
+  - PlayersTable.jsx (tabla de jugadores)
+  - RecentToptimesTable.jsx (tiempos recientes)
+  - PlayerTimesTable.jsx (tiempos por jugador)
+  - PlayerInfo.jsx (información de jugador)
+  - Header.jsx y Footer.jsx (componentes de layout)
+  - Componentes de UI auxiliares (Spinner, ShimmerLoader, etc.)
+
+Funcionalidades Principales
+-------------------------
+1. Visualización de tiempos recientes
+2. Ranking global de jugadores
+3. Búsqueda y filtrado de mapas
+4. Perfiles detallados de jugadores
+5. Estadísticas de carreras y tiempos
+6. Sistema de puntuación basado en rendimiento
+
+Equipo de Desarrollo
+-------------------
+Autores: dinojoaco, feroci, pcurz
+Versión actual: 2.0.1
+
+Notas Adicionales
+----------------
+- La aplicación está optimizada para rendimiento con Next.js
+- Utiliza SWR para manejo eficiente de datos y caché
+- Sistema de validación robusto con Zod
+- Interfaz moderna y responsive
+- Soporte para múltiples idiomas (español principalmente)
+- Integración con base de datos MySQL para almacenamiento persistente
+
+URLs
+----
+- Producción: https://mta.gtaspeedrun.lat/
+- Propósito: Consulta de tiempos más rápidos del servidor MTA:SA y competencia por el primer lugar 

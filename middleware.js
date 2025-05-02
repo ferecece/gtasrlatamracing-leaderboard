@@ -24,7 +24,6 @@ export function middleware(request) {
   }
 
   if (!dynamicRoutes.pages.test(url)) {
-    console.log(`Ruta no válida: ${url}, redirigiendo a home`);
     return NextResponse.redirect(new URL('/', request.url));
   }
 

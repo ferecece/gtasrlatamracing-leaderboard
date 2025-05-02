@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import Link from "next/link";
 import Flag from "@components/icons/Flag";
-import styles from "@styles/MapPage.module.css";
+//import styles from "@styles/MapPage.module.css";
 import Spinner from "@components/Spinner";
 import ColoredText from "@components/ColoredText";
 import dayjs from "@lib/dayjsConfig";
@@ -24,14 +24,14 @@ const MapPage = () => {
 
   if (isError) {
     return (
-      <div className={styles.container}>
+      <div>
         <Head>
           <title>Error | GTA Speedrun LATAM Racing</title>
           <meta name="description" content="Error al cargar el mapa." />
         </Head>
-        <div className={styles.centered}>
+        <div>
           <p>Error: {isError.message}</p>
-          <Link href="/" className={styles.button}>
+          <Link href="/">
             Volver al inicio
           </Link>
         </div>
@@ -41,7 +41,7 @@ const MapPage = () => {
 
   if (isLoading || !toptimes) {
     return (
-      <div className={styles.spinnerContainer}>
+      <div>
         <Head>
           <title>GTA Speedrun LATAM Racing</title>
           <meta
@@ -70,7 +70,7 @@ const MapPage = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>
           {toptimes
@@ -110,11 +110,11 @@ const MapPage = () => {
         />
         <meta property="og:image" content="/preview.png" />
       </Head>
-      <h1 className={styles.title}>{`Mapa ${toptimes.infoName}`}</h1>
-      <h2 className={styles.author}>
+      <h1>{`Mapa ${toptimes.infoName}`}</h1>
+      <h2>
         Contribución de {toptimes.author ?? "Desconocido"}
       </h2>
-      <h2 className={styles.played}>
+      <h2>
         Última vez jugado{" "}
         <span
           title={
@@ -132,14 +132,14 @@ const MapPage = () => {
             : "sin registros recientes"}
         </span>
       </h2>
-      <h2 className={styles.played}>
+      <h2>
         Runs completadas {toptimes.playedCount}
       </h2>
       {toptimes.mapToptimes && toptimes.mapToptimes.length > 0 ? (
-        <table className={styles.table}>
+        <table>
           <thead>
             <tr>
-              <th className={styles.alignCenter}>#</th>
+              <th>#</th>
               <th>Jugador</th>
               <th>Tiempo</th>
               <th>Fecha</th>
@@ -148,7 +148,7 @@ const MapPage = () => {
           <tbody>
             {toptimes.mapToptimes.map((time, index) => (
               <tr key={index}>
-                <td className={styles.alignCenter}>
+                <td>
                   {index + 1 === 1 ? (
                     <Image
                       src="/places/1st.png"
@@ -201,13 +201,13 @@ const MapPage = () => {
           </tbody>
         </table>
       ) : (
-        <div className={styles.container}>
-          <div className={styles.centered}>
+        <div>
+          <div>
             <p>
               Aún no hay tiempos registrados para este mapa. ¡Sé el primero en
               marcar un récord!
             </p>
-            <Link href="/" className={styles.button}>
+            <Link href="/">
               Volver al inicio
             </Link>
           </div>

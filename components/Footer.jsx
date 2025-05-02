@@ -1,28 +1,48 @@
-import Link from "next/link";
-import { FaDiscord, FaTwitch, FaYoutube, FaInstagram } from "react-icons/fa";
-import styles from "@styles/Home.module.css";
-
+import { 
+  Group, 
+  Text, 
+  Container, 
+  Anchor, 
+  Divider, 
+  rem,
+  AppShell
+} from '@mantine/core';
+import { 
+  IconBrandDiscord, 
+  IconBrandTwitch, 
+  IconBrandYoutube, 
+  IconBrandInstagram 
+} from '@tabler/icons-react';
 const discordInviteLink = "https://discord.gg/u8zRKuK";
 const twitchLink = "https://www.twitch.tv/gtalatam";
 const youtubeLink = "https://youtube.com/@GTASpeedrunLatam";
 const instagramLink = "https://instagram.com/gtaspeedrunlatam";
 
 const Footer = () => {
+  const iconSize = 24;
+  
   return (
-    <footer className={styles.footer}>
-      <Link href={discordInviteLink} target="_blank" rel="noopener noreferrer">
-        <FaDiscord size={36} />
-      </Link>
-      <Link href={twitchLink} target="_blank" rel="noopener noreferrer">
-        <FaTwitch size={36} />
-      </Link>
-      <Link href={youtubeLink} target="_blank" rel="noopener noreferrer">
-        <FaYoutube size={36} />
-      </Link>
-      <Link href={instagramLink} target="_blank" rel="noopener noreferrer">
-        <FaInstagram size={36} />
-      </Link>
-    </footer>
+    <div>
+      <Container size="lg" py="md">
+        <Divider my="sm" />
+        <Group justify="space-between" align="center">
+          <Group gap="md">
+            <Anchor href={discordInviteLink} target="_blank" rel="noopener noreferrer">
+              <IconBrandDiscord size={iconSize} stroke={1.5} />
+            </Anchor>
+            <Anchor href={twitchLink} target="_blank" rel="noopener noreferrer">
+              <IconBrandTwitch size={iconSize} stroke={1.5} />
+            </Anchor>
+            <Anchor href={youtubeLink} target="_blank" rel="noopener noreferrer">
+              <IconBrandYoutube size={iconSize} stroke={1.5} />
+            </Anchor>
+            <Anchor href={instagramLink} target="_blank" rel="noopener noreferrer">
+              <IconBrandInstagram size={iconSize} stroke={1.5} />
+            </Anchor>
+          </Group>
+        </Group>
+      </Container>
+    </div>
   );
 };
 

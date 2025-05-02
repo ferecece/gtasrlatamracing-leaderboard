@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'MTA Speedrun Latam',
+      name: 'GTA Speedrun LATAM Racing',
       script: 'npm',
       args: 'run start'
     }
