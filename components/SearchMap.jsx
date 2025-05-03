@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Autocomplete, Loader, Group, Text, useMantineTheme } from "@mantine/core";
-import { IconSearch, IconFlag, IconUser, IconClock, IconListNumbers } from "@tabler/icons-react";
+import { IconSearch, IconFlag, IconUser, IconClock, IconListNumbers, IconAlertCircle, IconRefresh } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import useMaps from "hooks/useMaps";
 import dayjs from "dayjs";
@@ -33,12 +33,33 @@ const SearchMap = () => {
   return (
     <Autocomplete
       placeholder={
-        isError
-          ? "Error al cargar"
-          : isLoading
-            ? "Cargando..."
-            : "Buscar mapa..."
+        "Buscar mapa..."
       }
+      error={isError
+        ? (
+          <Text size="sm" c={theme.colors.red[2]}>{isError}</Text>
+        )
+        : false
+      }
+      styles={{
+        input: {
+          borderColor: isError ? theme.colors.red[2] : undefined,
+          color: isError ? theme.colors.red[2] : undefined,
+          borderRadius: theme.radius.md,
+        },
+        dropdown: {
+          borderRadius: theme.radius.md,
+          backgroundColor: theme.colors.dark ? theme.colors.dark[8] : theme.white,
+          boxShadow: theme.shadows.md,
+        },
+        item: {
+          borderRadius: theme.radius.sm,
+          padding: '8px 12px',
+          '&[data-hovered]': {
+            backgroundColor: theme.colors.red[0],
+          },
+        },
+      }}
       value={selected ? selected.label : search}
       onChange={(val) => {
         setSearch(val);
@@ -46,8 +67,15 @@ const SearchMap = () => {
       }}
       data={data}
       limit={10}
-      rightSection={isLoading ? <Loader size="xs" /> : <IconSearch size={18} />}
-      nothingFound="No hay mapas disponibles"
+      rightSection={
+        isError ? (
+          <IconAlertCircle size={18} color="var(--mantine-color-red-3)" />
+        ) : isLoading ? (
+          <Loader size="xs" color="red.3"/>
+        ) : (
+          <IconSearch size={18}  color="var(--mantine-color-red-3)"/>
+        )
+      }
       onOptionSubmit={(val) => {
         const selectedOption = data.find((d) => d.value === val);
         if (selectedOption) {
@@ -60,7 +88,7 @@ const SearchMap = () => {
         return (
           <Group gap="xs" align="flex-start" wrap="nowrap">
             <div style={{ flex: 1 }}>
-              <Text fw={500} size="sm">
+              <Text fw={700} size="sm">
                 {map.infoName}
               </Text>
               <Group gap={8} mt={2}>
@@ -73,7 +101,7 @@ const SearchMap = () => {
                   <Text size="xs">{map.author}</Text>
                 </Group>
                 <Group gap={4}>
-                  <IconListNumbers size={12} />
+                  <IconRefresh size={12} />
                   <Text size="xs">{map.playedCount}</Text>
                 </Group>
                 {map.lastTimePlayed && (

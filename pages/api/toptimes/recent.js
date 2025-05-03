@@ -31,7 +31,7 @@ export default async function handler(req, res) {
         exclude: ['id', 'playerId', 'mapResName']
       },
       order: [['recordedAtMs', 'DESC']],
-      limit: 10,
+      limit: 5,
     });
 
     res.status(200).json(recentToptimes);

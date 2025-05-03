@@ -14,12 +14,11 @@ const RecentToptimesTable = () => {
 
   return (
     <Paper withBorder radius="md" p="md" shadow="sm" style={{ maxWidth: 700, margin: '0 auto', overflowX: 'auto' }}>
-      <Text size="xl" weight={700} align="center" mb="md">Tiempos Recientes</Text>
+      <Text size="xl" fw={700} align="center" mb="md">Tiempos Recientes</Text>
       <div style={{ width: '100%', overflowX: 'auto' }}>
         <Table
           striped
           highlightOnHover
-          withBorder
           withColumnBorders
           style={{ width: '100%', minWidth: 600, tableLayout: 'fixed' }}
         >
@@ -34,7 +33,7 @@ const RecentToptimesTable = () => {
           </thead>
           <tbody>
             {isLoading ? (
-              Array.from({ length: 10 }).map((_, idx) => (
+              Array.from({ length: 5 }).map((_, idx) => (
                 <tr key={idx}>
                   <td><Skeleton height={22} /></td>
                   <td><Skeleton height={22} /></td>

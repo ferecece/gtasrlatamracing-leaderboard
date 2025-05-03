@@ -31,7 +31,6 @@ export default async function handler(req, res) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ error: error.errors[0].message });
     }
-    console.error('Error fetching maps:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: '¡Ups! Algo salió mal buscando los mapas.' });
   }
 }

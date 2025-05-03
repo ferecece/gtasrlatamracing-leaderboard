@@ -11,10 +11,11 @@ import {
 import { useMediaQuery } from '@mantine/hooks';
 import { IconServer, IconUsers, IconMap2 } from '@tabler/icons-react';
 import useServer from 'hooks/useServer';
-
+import { useMantineTheme } from '@mantine/core';
 const Header = () => {
   const { server, isError, isLoading } = useServer();
   const iconSize = 24;
+  const theme = useMantineTheme();
   const isMobile = useMediaQuery('(max-width: 600px)');
 
   return (
@@ -36,7 +37,7 @@ const Header = () => {
           gap={isMobile ? 8 : 0}
         >
           <Link href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <Text fw={700} size="sm" color="white" align={isMobile ? 'center' : 'left'} style={{
+            <Text fw={700} size="sm" align={isMobile ? 'center' : 'left'} style={{
               whiteSpace: isMobile ? 'normal' : 'nowrap',
               width: isMobile ? '100%' : 'auto',
               overflow: 'hidden',
@@ -69,7 +70,7 @@ const Header = () => {
                 leftSection={<IconServer size={iconSize} stroke={1.5} />}
               >
                 {isLoading ? (
-                  <Skeleton height={12} width={235} radius="sm" />
+                  <Skeleton height={theme.fontSizes.sm + 6} width={235} radius="sm" />
                 ) : (
                   <Text span size="xs" style={{ minWidth: 80, textAlign: 'center' }}>
                     {isError ? "Offline" : "mtasa://sv.gtaspeedrun.lat:36129"}
