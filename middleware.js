@@ -4,14 +4,19 @@ const dynamicRoutes = {
   pages: /^\/(|maps(\/.*)?|players(\/.*)?|)$/,
   api: /^\/api\/(players|server|toptimes|maps|robots|sitemap)(\/.*)?$/
 };
-const staticFileExtensions = /\.(ico|svg|png|jpg|jpeg|gif|webp|css|js)$/;
+const staticFileExtensions = /\.(ico|svg|png|jpg|jpeg|gif|webp|css|js|html)$/;
 
 export function middleware(request) {
   const url = request.nextUrl.pathname;
   
-  if (staticFileExtensions.test(url)) {
+  if (url === '/maintenance.html' || staticFileExtensions.test(url)) {
     return NextResponse.next();
   }
+  
+  if (process.env.MAINTENANCE_MODE === '1') {
+    return NextResponse.next();
+  }
+  
   if (url.startsWith('/api')) {
     if (!dynamicRoutes.api.test(url)) {
       return NextResponse.json({ message: 'API Endpoint not found' },
@@ -22,6 +27,7 @@ export function middleware(request) {
     }
     return NextResponse.next();
   }
+
 
   if (!dynamicRoutes.pages.test(url)) {
     return NextResponse.redirect(new URL('/', request.url));

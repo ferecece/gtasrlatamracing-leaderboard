@@ -25,7 +25,20 @@ const nextConfig = {
       },
     ];
   },
-  transpilePackages: ['@mantine/core', '@mantine/hooks', '@mantine/form', '@mantine/dates'],
+  async redirects() {
+    return [
+      process.env.MAINTENANCE_MODE === "1"
+        ? { source: "/((?!maintenance).*)", destination: "/maintenance.html", permanent: false }
+        : null,
+    ].filter(Boolean);
+  },
+  transpilePackages: [
+    '@mantine/core', 
+    '@mantine/hooks', 
+    '@mantine/form', 
+    '@mantine/dates',
+    'mantine-datatable'
+  ],
 }
 
 module.exports = nextConfig

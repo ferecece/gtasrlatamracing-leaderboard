@@ -10,28 +10,31 @@
   },
   "dependencies": {
     "@bsnext/mta-ase-query": "^1.2.1",
-    "@emotion/react": "^11.14.0",
-    "@mantine/core": "^7.17.5",
-    "@mantine/dates": "^7.17.5",
-    "@mantine/form": "^7.17.5",
-    "@mantine/hooks": "^7.17.5",
+    "@emotion/react": "^11.11.3",
+    "@mantine/core": "^8.0.0",
+    "@mantine/dates": "^8.0.0",
+    "@mantine/form": "^8.0.0",
+    "@mantine/hooks": "^8.0.0",
     "@tabler/icons-react": "^3.31.0",
-    "dayjs": "^1.11.13",
+    "dayjs": "^1.11.10",
+    "mantine-datatable": "^7.17.1",
     "mysql2": "^3.11.3",
-    "next": "^14.2.15",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-icons": "^5.2.1",
-    "react-select": "^5.4.0",
+    "next": "^14.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^5.0.1",
+    "react-select": "^5.8.0",
     "react-world-flags": "^1.6.0",
-    "sequelize": "^6.37.4",
+    "sequelize": "^6.37.1",
     "swr": "^2.2.5",
-    "zod": "^3.23.8"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
-    "eslint": "8.20.0",
-    "eslint-config-next": "12.2.3",
-    "sass": "^1.54.0"
+    "eslint": "8.56.0",
+    "eslint-config-next": "14.1.0",
+    "postcss": "^8.4.38",
+    "postcss-preset-mantine": "^1.13.0",
+    "sass": "^1.69.7"
   },
   "engines": {
     "node": ">=18.12.0"
